@@ -1,0 +1,12 @@
+src/app/code/local/Mokadev/Hupilytics     app/code/local/Mokadev/Hupilytics
+src/app/etc/modules/*    app/etc/modules/
+src/app/locale/fr_FR/*    app/locale/fr_FR/
+src/app/locale/en_US/*    app/locale/en_US/
+
+src/app/design/frontend/base/default/layout/mokadev/*    app/design/frontend/base/default/layout/mokadev/
+src/app/design/frontend/base/default/template/mokadev/*    app/design/frontend/base/default/template/mokadev/
+
+src/app/design/frontend/rwd/default/layout/mokadev/*    app/design/frontend/rwd/default/layout/mokadev/
+src/app/design/frontend/rwd/default/template/mokadev/*    app/design/frontend/rwd/default/template/mokadev/
+
+src/js/hupilytics    js/hupilytics

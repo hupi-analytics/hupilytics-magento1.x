@@ -1,0 +1,73 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright (c) 2012-2017, MOKADEV SAS
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are not permitted without the express authorization of the author
+ *
+ * @category    Mokadev
+ * @package     Mokadev_Hupilytics
+ * @author      Mohamed Kaïd (contact@mokadev.com)
+ * @copyright   Copyright (c) 2012-2017 MOKADEV SAS (https://www.mokadev.com)
+ * @license     Proprietary - no redistribution without authorization
+ *
+ **/
+-->
+<layout version="0.1.0">
+
+    <default>
+        <reference name="head">
+            <action method="addJs" ifconfig="mokadev_hupilytics/general/enabled">
+                <script>hupilytics/hupilytics.js</script>
+                <params>async="async"</params>
+            </action>
+            <action method="addJs" ifconfig="mokadev_hupilytics/general/enabled">
+                <script>hupilytics/events.js</script>
+                <params>async="async"</params>
+            </action>
+        </reference>
+        <reference name="before_body_end">
+            <block type="mokadev_hupilytics/tracking" name="hupilytics_tracking"
+                   template="mokadev/hupilytics/tracking.phtml"/>
+        </reference>
+    </default>
+
+    <cms_index_index>
+        <reference name="content">
+            <block type="mokadev_hupilytics/home" name="hupilytics_recommendation"
+                   template="mokadev/hupilytics/recommendation.phtml"/>
+        </reference>
+    </cms_index_index>
+
+    <catalog_category_default>
+        <reference name="content">
+            <block type="mokadev_hupilytics/category" name="hupilytics_recommendation"
+                   template="mokadev/hupilytics/recommendation.phtml"/>
+        </reference>
+    </catalog_category_default>
+
+    <catalog_category_layered>
+        <reference name="content">
+            <block type="mokadev_hupilytics/category" name="hupilytics_recommendation"
+                   template="mokadev/hupilytics/recommendation.phtml"/>
+        </reference>
+    </catalog_category_layered>
+
+    <catalog_product_view>
+        <reference name="product.info">
+            <block type="mokadev_hupilytics/product" name="hupilytics.recommendation" as="hupilytics_recommendation" template="mokadev/hupilytics/recommendation.phtml">
+                <action method="addToParentGroup"><group>product_additional_data</group></action>
+            </block>
+        </reference>
+    </catalog_product_view>
+
+    <checkout_cart_index>
+        <reference name="checkout.cart.extra">
+            <block type="mokadev_hupilytics/cart" name="hupilytics_recommendation"
+                   template="mokadev/hupilytics/recommendation.phtml"/>
+        </reference>
+    </checkout_cart_index>
+
+</layout>

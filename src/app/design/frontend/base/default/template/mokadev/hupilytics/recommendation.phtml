@@ -1,0 +1,45 @@
+<?php
+/**
+ * Copyright (c) 2012-2017, MOKADEV SAS
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are not permitted without the express authorization of the author
+ *
+ * @category    Mokadev
+ * @package     Mokadev_Hupilytics
+ * @author      Mohamed Kaïd (contact@mokadev.com)
+ * @copyright   Copyright (c) 2012-2017 MOKADEV SAS (https://www.mokadev.com)
+ * @license     Proprietary - no redistribution without authorization
+ *
+ **/
+?>
+<?php
+/** @var Mokadev_Hupilytics_Block_Cart $this */
+?>
+<?php if($this->getProductCollection() && $this->getProductCollection()->getSize()): ?>
+    <div class="hupi-recommendation" data-endpoint="<?php echo $this->getEndpoint() ?>">
+        <h2><?php echo $this->__('You may be interested in the following items') ?></h2>
+        <ul id="reco-<?php echo $this->getEndpoint() ?>-products-list">
+            <?php foreach ($this->getProductCollection() as $_product): ?>
+                <li class="item" data-product-id="<?php echo $_product->getId() ?>" data-product-name="<?php echo $this->jsQuoteEscape($this->escapeHtml($_product->getName())) ?>">
+                    <a class="product-image" href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->escapeHtml($_product->getName()) ?>"><img src="<?php echo $this->helper('catalog/image')->init($_product, 'thumbnail')->resize(75); ?>" width="75" height="75" alt="<?php echo $this->escapeHtml($_product->getName()) ?>" /></a>
+                    <div class="product-details">
+                        <h3 class="product-name"><a href="<?php echo $_product->getProductUrl() ?>"><?php echo $this->escapeHtml($_product->getName()) ?></a></h3>
+                        <?php echo $this->getPriceHtml($_product, true) ?>
+                        <button type="button" title="<?php echo Mage::helper('core')->quoteEscape($this->__('Add to Cart')) ?>" class="button btn-cart" onclick="setLocation('<?php echo $this->getAddToCartUrl($_product) ?>')"><span><span><?php echo $this->__('Add to Cart') ?></span></span></button>
+                        <ul class="add-to-links">
+                            <?php if ($this->helper('wishlist')->isAllow()) : ?>
+                                <li><a href="<?php echo $this->getAddToWishlistUrl($_product) ?>" class="link-wishlist"><?php echo $this->__('Add to Wishlist') ?></a></li>
+                            <?php endif; ?>
+                            <?php if($_compareUrl=$this->getAddToCompareUrl($_product)): ?>
+                                <li><span class="separator">|</span> <a href="<?php echo $_compareUrl ?>" class="link-compare"><?php echo $this->__('Add to Compare') ?></a></li>
+                            <?php endif; ?>
+                        </ul>
+                    </div>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+        <script type="text/javascript">decorateList('reco-<?php echo $this->getEndpoint() ?>-products-list', 'none-recursive')</script>
+    </div>
+<?php endif; ?>

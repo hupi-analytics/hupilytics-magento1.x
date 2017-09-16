@@ -1,0 +1,131 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright (c) 2012-2017, MOKADEV SAS
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are not permitted without the express authorization of the author
+ *
+ * @category    Mokadev
+ * @package     Mokadev_Hupilytics
+ * @author      Mohamed Kaïd (contact@mokadev.com)
+ * @copyright   Copyright (c) 2012-2017 MOKADEV SAS (https://www.mokadev.com)
+ * @license     Proprietary - no redistribution without authorization
+ *
+ **/
+-->
+<config>
+    <modules>
+        <Mokadev_Hupilytics>
+            <version>1.0.0</version>
+        </Mokadev_Hupilytics>
+    </modules>
+    <global>
+        <blocks>
+            <mokadev_hupilytics>
+                <class>Mokadev_Hupilytics_Block</class>
+            </mokadev_hupilytics>
+        </blocks>
+        <helpers>
+            <mokadev_hupilytics>
+                <class>Mokadev_Hupilytics_Helper</class>
+            </mokadev_hupilytics>
+        </helpers>
+        <models>
+            <mokadev_hupilytics>
+                <class>Mokadev_Hupilytics_Model</class>
+            </mokadev_hupilytics>
+        </models>
+    </global>
+    <frontend>
+        <layout>
+            <updates>
+                <mokadev_hupilytics>
+                    <file>mokadev/hupilytics.xml</file>
+                </mokadev_hupilytics>
+            </updates>
+        </layout>
+        <translate>
+            <modules>
+                <Mokadev_Hupilytics>
+                    <files>
+                        <default>Mokadev_Hupilytics.csv</default>
+                    </files>
+                </Mokadev_Hupilytics>
+            </modules>
+        </translate>
+        <events>
+            <sales_quote_product_add_after>
+                <observers>
+                    <hupilytics_cart_tracking>
+                        <class>mokadev_hupilytics/observer</class>
+                        <method>showCartTrackingAfterAddToCart</method>
+                    </hupilytics_cart_tracking>
+                </observers>
+            </sales_quote_product_add_after>
+            <checkout_cart_update_items_after>
+                <observers>
+                    <hupilytics_cart_tracking>
+                        <class>mokadev_hupilytics/observer</class>
+                        <method>showCartTrackingAfterCartUpdate</method>
+                    </hupilytics_cart_tracking>
+                </observers>
+            </checkout_cart_update_items_after>
+            <sales_quote_remove_item>
+                <observers>
+                    <hupilytics_cart_tracking>
+                        <class>mokadev_hupilytics/observer</class>
+                        <method>showCartTrackingAfterDeleteFromCart</method>
+                    </hupilytics_cart_tracking>
+                </observers>
+            </sales_quote_remove_item>
+            <checkout_onepage_controller_success_action>
+                <observers>
+                    <hupilytics_order_success>
+                        <class>mokadev_hupilytics/observer</class>
+                        <method>setHupilyticsOnOrderSuccessPage</method>
+                    </hupilytics_order_success>
+                </observers>
+            </checkout_onepage_controller_success_action>
+            <checkout_multishipping_controller_success_action>
+                <observers>
+                    <hupilytics_order_success>
+                        <class>mokadev_hupilytics/observer</class>
+                        <method>setHupilyticsOnOrderSuccessPage</method>
+                    </hupilytics_order_success>
+                </observers>
+            </checkout_multishipping_controller_success_action>
+        </events>
+    </frontend>
+    <adminhtml>
+        <translate>
+            <modules>
+                <Mokadev_Hupilytics>
+                    <files>
+                        <default>Mokadev_Hupilytics.csv</default>
+                    </files>
+                </Mokadev_Hupilytics>
+            </modules>
+        </translate>
+    </adminhtml>
+    <default>
+        <mokadev_hupilytics>
+            <api>
+                <url>https://api.dataretriever.hupi.io/private</url>
+            </api>
+            <recommendation_product>
+                <products_count>4</products_count>
+            </recommendation_product>
+            <recommendation_cart>
+                <products_count>4</products_count>
+            </recommendation_cart>
+            <recommendation_category>
+                <products_count>4</products_count>
+            </recommendation_category>
+            <recommendation_home>
+                <products_count>4</products_count>
+            </recommendation_home>
+        </mokadev_hupilytics>
+    </default>
+</config>
