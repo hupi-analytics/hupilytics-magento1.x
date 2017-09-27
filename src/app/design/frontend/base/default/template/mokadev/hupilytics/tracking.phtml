@@ -25,7 +25,9 @@
         _paq.push(['setTrackerUrl', u]);
         _paq.push(['setSiteId', <?php echo Mage::helper('core')->jsQuoteEscape($this->getSiteId()) ?>]);
 
+        <?php if ($this->getUserId()): ?>
         _paq.push(['setUserId', '<?php echo Mage::helper('core')->jsQuoteEscape($this->getUserId()) ?>']);
+        <?php endif; ?>
 
         function current_ts()
         {
@@ -42,6 +44,23 @@
         _paq.push(['setCustomVariable', 1, 'current_ts', current_ts(), 'page']);
         _paq.push(['setCustomVariable', 42, 'lang', '<?php echo $lang ?>', 'page']);
 
+        var _trackedProductIds = [];
+        var listTrackedItems = jQuery('body [data-product-id]').not(".hupi-recommendation [data-product-id]");
+
+        if (listTrackedItems.length) {
+
+            listTrackedItems.each(function() {
+                if (jQuery(this).data('product-id')) {
+                    _trackedProductIds.push(jQuery(this).data('product-id'));
+                }
+            });
+
+            if (_trackedProductIds.length > 0) {
+                _paq.push(['setCustomVariable', 30, 'products_impression', _trackedProductIds ,'page']);
+            }
+        }
+
+
         var _hupiProductIds = [];
         var listItems = jQuery('.hupi-recommendation [data-product-id]');
 
@@ -55,7 +74,6 @@
                 _paq.push(['setCustomVariable', 40, 'products_recommendation', _hupiProductIds ,'page']);
             }
         }
-
 
         <?php echo $this->_getProductPageCode()?>
 

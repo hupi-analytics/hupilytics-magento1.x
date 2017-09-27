@@ -52,7 +52,7 @@ class Mokadev_Hupilytics_Block_Tracking extends Mage_Core_Block_Template
             }
 
             if ($order->getBaseGrandTotal()) {
-                $subtotal = $order->getBaseGrandTotal() - $order->getBaseShippingAmount() - $order->getBaseShippingTaxAmount();
+                $subtotal = $order->getBaseSubtotal();
             } else {
                 $subtotal = '0.00';
             }
@@ -117,6 +117,15 @@ class Mokadev_Hupilytics_Block_Tracking extends Mage_Core_Block_Template
             $updateCart = true;
             foreach ($productsUpdated as $product) {
                 if (!empty($product) && $product['qty'] > 0) {
+
+                    $result[] = sprintf("_paq.push(['addEcommerceItem', '%s', '%s', '%s', %s, %s]);",
+                        $this->jsQuoteEscape($product['id']),
+                        $this->jsQuoteEscape($product['name']),
+                        '',
+                        $product['price'],
+                        $product['qty']
+                    );
+
                     if ($product['qty'] < $product['original_qty']) {
                         $result[] = sprintf("_paq.push(['trackEvent', 'Remove From cart', '%s', '%s']);",
                             $this->jsQuoteEscape($product['id']),
@@ -135,9 +144,9 @@ class Mokadev_Hupilytics_Block_Tracking extends Mage_Core_Block_Template
         }
 
         if ($updateCart) {
-            $grandTotal = Mage::getModel('checkout/cart')->getQuote()->getGrandTotal();
-            if ($grandTotal) {
-                $result[] = sprintf("_paq.push(['trackEcommerceCartUpdate', %s]);", $grandTotal);
+            $grandTotalExcludingTax = Mage::getModel('checkout/cart')->getQuote()->getSubtotalWithDiscount();
+            if ($grandTotalExcludingTax) {
+                $result[] = sprintf("_paq.push(['trackEcommerceCartUpdate', %s]);", $grandTotalExcludingTax);
             }
         }
 
@@ -158,13 +167,16 @@ class Mokadev_Hupilytics_Block_Tracking extends Mage_Core_Block_Template
             return '';
         }
 
+        $_taxHelper  = Mage::helper('tax');
+        $priceExclTax = $_taxHelper->getPrice($currentProduct, $currentProduct->getPrice(), false);
+        
         $html = sprintf("_paq.push(['setEcommerceView', '%s', '%s', [%s], %s, 1]);",
             $this->jsQuoteEscape($currentProduct->getId()),
             $this->jsQuoteEscape($currentProduct->getName()),
             implode(',', $currentProduct->getCategoryIds()),
-            $currentProduct->getPrice()
+            $priceExclTax
         );
-        //$html .= "\n";
+
         $html .= sprintf("_paq.push(['trackEvent', 'Product Click', 'Clic', '%s']);", $this->jsQuoteEscape($currentProduct->getId()));
 
         //we don't want to show
@@ -211,6 +223,7 @@ class Mokadev_Hupilytics_Block_Tracking extends Mage_Core_Block_Template
 
         return '';
     }
+
     /**
      * @return string
      */

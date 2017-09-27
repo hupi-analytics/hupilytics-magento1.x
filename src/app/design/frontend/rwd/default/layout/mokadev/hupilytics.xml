@@ -18,7 +18,7 @@
 
     <cms_index_index>
         <reference name="content">
-            <block type="mokadev_hupilytics/home" name="hupilytics_recommendation"
+            <block type="mokadev_hupilytics/home" name="hupilytics_recommendation" after="-"
                    template="mokadev/hupilytics/recommendation.phtml"/>
         </reference>
     </cms_index_index>

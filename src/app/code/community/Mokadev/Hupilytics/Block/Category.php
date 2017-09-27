@@ -44,7 +44,7 @@ class Mokadev_Hupilytics_Block_Category extends Mage_Catalog_Block_Product_Abstr
             $collection = Mage::getResourceModel('catalog/product_collection');
             Mage::getModel('catalog/layer')->prepareProductCollection($collection);
 
-            if (is_int($productIds[0])) {
+            if (is_numeric($productIds[0])) {
                 $collection->addIdFilter($productIds);
             }else{
                 $collection->addFieldToFilter('sku', array('in' => $productIds));

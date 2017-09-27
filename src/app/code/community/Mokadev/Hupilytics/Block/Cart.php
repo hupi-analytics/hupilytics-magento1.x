@@ -15,7 +15,7 @@
  *
  **/
 
-class Mokadev_Hupilytics_Block_Product extends Mage_Catalog_Block_Product_Abstract
+class Mokadev_Hupilytics_Block_Cart extends Mage_Catalog_Block_Product_Abstract
 {
 
     protected $_productCollection;
@@ -24,16 +24,21 @@ class Mokadev_Hupilytics_Block_Product extends Mage_Catalog_Block_Product_Abstra
     {
         if (is_null($this->_productCollection)) {
 
-            $currentProduct = Mage::registry('current_product');
-
-            if (!$currentProduct) return false;
-
             $api = Mage::getModel('mokadev_hupilytics/api');
-            $productsCount = Mage::helper('mokadev_hupilytics')->getRecommendationConfig('product/products_count');
-            $endpoint = Mage::helper('mokadev_hupilytics')->getRecommendationConfig('product/endpoint');
 
+            $productsCount = Mage::helper('mokadev_hupilytics')->getRecommendationConfig('cart/products_count');
+            $endpoint = Mage::helper('mokadev_hupilytics')->getRecommendationConfig('cart/endpoint');
+
+            $productsInCart = array();
+            $quote = Mage::getModel('checkout/cart')->getQuote();
+            $cartItems = $quote->getAllVisibleItems();
+
+            foreach ($cartItems as $cartItem) {
+                /* @var Mage_Sales_Model_Quote_Item $cartItem */
+                $productsInCart[] = $cartItem->getProductId();
+            }
             $options = array(
-                'id_demande' => $currentProduct->getId(),
+                'basket' => Zend_Json::encode($productsInCart),
                 'limit'  => $productsCount
             );
 
@@ -44,7 +49,7 @@ class Mokadev_Hupilytics_Block_Product extends Mage_Catalog_Block_Product_Abstra
             $collection = Mage::getResourceModel('catalog/product_collection');
             Mage::getModel('catalog/layer')->prepareProductCollection($collection);
 
-            if (is_int($productIds[0])) {
+            if (is_numeric($productIds[0])) {
                 $collection->addIdFilter($productIds);
             }else{
                 $collection->addFieldToFilter('sku', array('in' => $productIds));
@@ -63,7 +68,7 @@ class Mokadev_Hupilytics_Block_Product extends Mage_Catalog_Block_Product_Abstra
 
     public function getEndpoint()
     {
-        return Mage::helper('mokadev_hupilytics')->getRecommendationConfig('product/endpoint');
+        return Mage::helper('mokadev_hupilytics')->getRecommendationConfig('cart/endpoint');
     }
 
     /**
@@ -73,7 +78,7 @@ class Mokadev_Hupilytics_Block_Product extends Mage_Catalog_Block_Product_Abstra
      */
     protected function _toHtml()
     {
-        if (!$this->helper('mokadev_hupilytics')->isRecommendationEnabledOnProductPage()) {
+        if (!$this->helper('mokadev_hupilytics')->isRecommendationEnabledOnCart()) {
             return '';
         }
 

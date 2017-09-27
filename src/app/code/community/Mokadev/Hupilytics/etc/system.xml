@@ -61,7 +61,7 @@
                 </general>
                 <api>
                     <label>Recommendations API</label>
-                    <sort_order>20</sort_order>
+                    <sort_order>5</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
@@ -84,6 +84,40 @@
                         </token>
                     </fields>
                 </api>
+                <recommendation_home>
+                    <label>Recommendations on home page</label>
+                    <sort_order>10</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <enabled translate="label comment">
+                            <label>Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <sort_order>10</sort_order>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </enabled>
+                        <endpoint translate="label comment">
+                            <label>End point</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </endpoint>
+                        <products_count>
+                            <label>Products count</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </products_count>
+                    </fields>
+                </recommendation_home>
                 <recommendation_product>
                     <label>Recommendations on product page</label>
                     <sort_order>20</sort_order>
@@ -118,43 +152,9 @@
                         </products_count>
                     </fields>
                 </recommendation_product>
-                <recommendation_cart>
-                    <label>Recommendations on cart page</label>
-                    <sort_order>20</sort_order>
-                    <show_in_default>1</show_in_default>
-                    <show_in_website>1</show_in_website>
-                    <show_in_store>1</show_in_store>
-                    <fields>
-                        <enabled translate="label comment">
-                            <label>Enabled</label>
-                            <frontend_type>select</frontend_type>
-                            <sort_order>10</sort_order>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                        </enabled>
-                        <endpoint translate="label comment">
-                            <label>End point</label>
-                            <frontend_type>text</frontend_type>
-                            <sort_order>20</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                        </endpoint>
-                        <products_count>
-                            <label>Products count</label>
-                            <frontend_type>text</frontend_type>
-                            <sort_order>30</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                        </products_count>
-                    </fields>
-                </recommendation_cart>
                 <recommendation_category>
                     <label>Recommendations on category page</label>
-                    <sort_order>20</sort_order>
+                    <sort_order>30</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
@@ -186,9 +186,9 @@
                         </products_count>
                     </fields>
                 </recommendation_category>
-                <recommendation_home>
-                    <label>Recommendations on home page</label>
-                    <sort_order>20</sort_order>
+                <recommendation_cart>
+                    <label>Recommendations on cart page</label>
+                    <sort_order>40</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
@@ -219,7 +219,7 @@
                             <show_in_store>1</show_in_store>
                         </products_count>
                     </fields>
-                </recommendation_home>
+                </recommendation_cart>
             </groups>
         </mokadev_hupilytics>
     </sections>

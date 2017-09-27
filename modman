@@ -1,4 +1,4 @@
-src/app/code/local/Mokadev/Hupilytics     app/code/local/Mokadev/Hupilytics
+src/app/code/community/Mokadev/Hupilytics     app/code/community/Mokadev/Hupilytics
 src/app/etc/modules/*    app/etc/modules/
 src/app/locale/fr_FR/*    app/locale/fr_FR/
 src/app/locale/en_US/*    app/locale/en_US/

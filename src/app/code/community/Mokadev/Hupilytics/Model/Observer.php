@@ -53,14 +53,18 @@ class Mokadev_Hupilytics_Model_Observer
 
             if (!is_array($data)) $data = array();
 
+            $_taxHelper  = Mage::helper('tax');
             foreach ($quoteItems as $item) {
                 /** @var Mage_Sales_Model_Quote_Item $item */
                 if (!$item->getParentItemId()) {
+
+                    $priceExclTax = $_taxHelper->getPrice($item->getProduct(), $item->getProduct()->getPrice(), false);
+
                     $data[$item->getProductId()] = array (
                         'id' => $item->getProductId(),
                         'name' => $item->getName(),
                         'qty' => $item->getQty(),
-                        'price' => $item->getPrice()
+                        'price' => $priceExclTax
                     );
                 }
             }
@@ -90,7 +94,9 @@ class Mokadev_Hupilytics_Model_Observer
             if (!$item->getParentItemId()) {
                 $data[$item->getProductId()] = array (
                     'id' => $item->getProductId(),
-                    'qty' => $item->getQty()
+                    'name' => $item->getName(),
+                    'qty' => $item->getQty(),
+                    'price' => $item->getPrice()
                 );
 
                 Mage::getSingleton('checkout/session')->setProductsJustDeleted($data);
@@ -117,6 +123,8 @@ class Mokadev_Hupilytics_Model_Observer
                         'id' => $item->getProductId(),
                         'original_qty' => $item->getQty(),
                         'qty' => $info['qty'],
+                        'price' => $item->getPrice(),
+                        'name' => $item->getName(),
                     );
                 }
 
